@@ -23,10 +23,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Product {
+public class ProductDAO {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private Long productId;
 
@@ -46,9 +46,12 @@ public class Product {
 	private int unitsInStock;
 
 	@Column(name = "mf_date")
-	private Date mfDate;
+	private Date mfDate = new Date();
 
 	@Column(name = "expiry_date")
-	private Date expiryDate;
+	private Date expiryDate = new Date();
+	
+	@Column(name = "category_id")
+	private Long categoryId;
 
 }
