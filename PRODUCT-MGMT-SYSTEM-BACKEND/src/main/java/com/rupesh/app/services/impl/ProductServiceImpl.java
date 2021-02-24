@@ -6,11 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rupesh.app.entities.CategoryDAO;
 import com.rupesh.app.entities.ProductDAO;
-import com.rupesh.app.model.ProductResponse;
 import com.rupesh.app.repository.ProductRepository;
-import com.rupesh.app.services.CategoryService;
 import com.rupesh.app.services.ProductService;
 
 import javassist.NotFoundException;
@@ -21,25 +18,17 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@Autowired
-	private CategoryService categoryService;
-
 	@Override
 	public ProductDAO saveProduct(ProductDAO product) {
 		return this.productRepository.save(product);
 	}
 
 	@Override
-	public ProductResponse getProductById(Long productId) throws Exception {
+	public ProductDAO getProductById(Long productId) throws Exception {
 		Optional<ProductDAO> findById = this.productRepository.findById(productId);
 
 		if (findById.isPresent()) {
-			ProductDAO product = findById.get();
-			CategoryDAO category = this.categoryService.getCategory(product.getCategoryId());
-			ProductResponse response = new ProductResponse();
-			response.setCategory(category);
-			response.setProduct(product);
-			return response;
+			return findById.get();
 		}
 		throw new NotFoundException("product with provided product id = " + productId + " is not found");
 	}
